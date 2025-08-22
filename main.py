@@ -20,6 +20,10 @@ class TestUrbanRoutes:
         routes_page = pages.UrbanRoutesPage(self.driver)
         routes_page.set_from_address(data.ADDRESS_FROM)
         routes_page.set_to_address(data.ADDRESS_TO)
+        assert routes_page.get_from_address() == data.ADDRESS_FROM
+        assert routes_page.get_to_address() == data.ADDRESS_TO
+
+
 
     def test_select_plan(self):
         self.driver.get(data.URBAN_ROUTES_URL)
@@ -29,6 +33,9 @@ class TestUrbanRoutes:
         routes_page.click_call_taxi_button()
         time.sleep(2)
         routes_page.click_supportive_plan()
+        assert routes_page.get_active_plan() == "Supportive"
+
+
 
     def test_fill_phone_number(self):
         self.driver.get(data.URBAN_ROUTES_URL)
@@ -44,6 +51,7 @@ class TestUrbanRoutes:
         assert routes_page.get_phone_number_field() == data.PHONE_NUMBER
 
 
+
     def test_fill_card(self):
         self.driver.get(data.URBAN_ROUTES_URL)
         routes_page = pages.UrbanRoutesPage(self.driver)
@@ -57,6 +65,9 @@ class TestUrbanRoutes:
         routes_page.set_card_code_field(data.CARD_CODE)
         time.sleep(2)
         routes_page.click_link_button()
+        assert routes_page.get_card_number_field() == data.CARD_NUMBER
+        assert routes_page.get_card_code_field() ==data.CARD_CODE
+
 
     def test_comment_for_driver(self):
         self.driver.get(data.URBAN_ROUTES_URL)
@@ -66,7 +77,7 @@ class TestUrbanRoutes:
         routes_page.click_call_taxi_button()
         time.sleep(2)
         routes_page.set_message_for_driver(data.MESSAGE_FOR_DRIVER)
-
+        assert routes_page.get_message_for_driver() == data.MESSAGE_FOR_DRIVER
 
     def test_order_blanket_and_handkerchiefs(self):
         self.driver.get(data.URBAN_ROUTES_URL)
@@ -77,6 +88,7 @@ class TestUrbanRoutes:
         time.sleep(2)
         routes_page.click_supportive_plan()
         routes_page.click_blanket_checkbox()
+        assert routes_page.get_blanket_status()
 
 
     def test_order_2_ice_creams(self):
@@ -89,6 +101,8 @@ class TestUrbanRoutes:
         routes_page.click_supportive_plan()
         routes_page.click_ice_cream_plus()
         routes_page.click_ice_cream_plus()
+        assert routes_page.get_ice_cream_counter() == 2
+
 
     def test_car_search_model_appears(self):
         self.driver.get(data.URBAN_ROUTES_URL)
@@ -96,9 +110,12 @@ class TestUrbanRoutes:
         routes_page.set_from_address(data.ADDRESS_FROM)
         routes_page.set_to_address(data.ADDRESS_TO)
         routes_page.click_call_taxi_button()
-        time.sleep(2)
         routes_page.click_supportive_plan()
+        routes_page.set_message_for_driver(data.MESSAGE_FOR_DRIVER)
         routes_page.click_enter_number_order_button()
+        assert routes_page.get_car_search_visibility()
+
+
 
 
     @classmethod
